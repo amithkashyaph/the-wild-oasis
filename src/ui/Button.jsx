@@ -58,6 +58,10 @@ const Button = styled.button`
   color: var(--color-brand-50);
   box-shadow: var(--shadow-sm);
   cursor: pointer;
+
+  &:hover {
+    background-color: var(--color-brand-700);
+  }
 `;
 
 export default Button;
