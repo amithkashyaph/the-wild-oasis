@@ -38,10 +38,18 @@ const FormRow2 = styled.div`
   }
 `;
 
-function CreateCabinForm() {
-  const { register, handleSubmit, reset, getValues, formState } = useForm();
+function CreateCabinForm({ editCabinData = {} }) {
+  const { id: editCabinId, ...editFormValues } = editCabinData;
+
+  const isEditMode = Boolean(editCabinId);
+
+  const { register, handleSubmit, reset, getValues, formState } = useForm({
+    defaultValues: isEditMode ? editFormValues : {},
+  });
   const { errors } = formState;
+
   const queryClient = useQueryClient();
+
   const { mutate, isLoading: isCreating } = useMutation({
     mutationFn: (cabinData) => createCabin(cabinData),
     onSuccess: () => {
@@ -57,7 +65,7 @@ function CreateCabinForm() {
   });
 
   const onSubmit = (cabinData) => {
-    mutate(cabinData);
+    mutate({ ...cabinData, image: cabinData.image[0] });
   };
 
   const onError = (errors) => {
@@ -116,10 +124,6 @@ function CreateCabinForm() {
               value: 0,
               message: "Discount cannot be less than 0",
             },
-            max: {
-              value: getValues().regularPrice,
-              message: "Discount can be maximum of regular price",
-            },
             validate: (value) =>
               value <= getValues().regularPrice ||
               "Discount cannot be greater than regular price",
@@ -147,7 +151,7 @@ function CreateCabinForm() {
           id="image"
           accept="image/*"
           {...register("image", {
-            required: "Please upload a Cabin photo",
+            required: isEditMode ? false : "Please upload a Cabin photo",
           })}
         />
       </FormRow>
@@ -158,7 +162,7 @@ function CreateCabinForm() {
           Cancel
         </Button>
         <Button disabled={isCreating} id="addCabin">
-          Add cabin
+          {isEditMode ? "Edit Cabin" : "Add new Cabin"}
         </Button>
       </FormRow2>
     </Form>
