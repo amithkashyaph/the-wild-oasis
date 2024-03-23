@@ -50,11 +50,11 @@ const Button = styled.button`
   }
 `;
 
-const Modal = ({ children }) => {
+const Modal = ({ children, onClose }) => {
   return (
     <Overlay>
       <StyledModal>
-        <Button>
+        <Button onClick={onClose}>
           <HiXMark />
         </Button>
         <div>{children}</div>
