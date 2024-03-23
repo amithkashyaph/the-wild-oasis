@@ -8,9 +8,7 @@ import Button from "../ui/Button";
 
 function Cabins() {
   const [showForm, setShowForm] = useState(false);
-  useEffect(() => {
-    getCabins().then((data) => console.log(data));
-  }, []);
+
   return (
     <>
       <Row type="horizontal">
