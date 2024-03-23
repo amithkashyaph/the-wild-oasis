@@ -7,6 +7,10 @@ import { useSettings } from "./useSettings";
 function UpdateSettingsForm() {
   const { isLoading, settings } = useSettings();
 
+  if (isLoading) {
+    return <Spinner />;
+  }
+
   const {
     minBookingLength,
     maxBookingLength,
