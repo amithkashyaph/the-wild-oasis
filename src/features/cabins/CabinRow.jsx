@@ -5,6 +5,7 @@ import CreateCabinForm from "./CreateCabinForm";
 import { useDeleteCabin } from "./useDeleteCabin";
 import { HiPencil, HiSquare2Stack, HiTrash } from "react-icons/hi2";
 import { useCreateCabin } from "./useCreateCabin";
+import ModalCompoundComponent from "../../ui/ModalCompoundComponent";
 
 const TableRow = styled.div`
   display: grid;
@@ -85,23 +86,25 @@ const CabinRow = ({ cabin }) => {
           <button onClick={handleCreateDuplicateCabin}>
             <HiSquare2Stack />
           </button>
-          <button
-            onClick={() => setShowEditForm((showForm) => !showForm)}
-            disabled={isDeleting}
-          >
-            <HiPencil />
-          </button>
+          <ModalCompoundComponent>
+            <ModalCompoundComponent.Open opens="edit-cabin">
+              <button
+                onClick={() => setShowEditForm((showForm) => !showForm)}
+                disabled={isDeleting}
+              >
+                <HiPencil />
+              </button>
+            </ModalCompoundComponent.Open>
+            <ModalCompoundComponent.Window name="edit-cabin">
+              <CreateCabinForm editCabinData={cabin} />
+            </ModalCompoundComponent.Window>
+          </ModalCompoundComponent>
+
           <button onClick={() => deleteCabin(cabinId)} disabled={isDeleting}>
             <HiTrash />
           </button>
         </div>
       </TableRow>
-      {showEditForm && (
-        <CreateCabinForm
-          editCabinData={cabin}
-          onClose={() => setShowEditForm(false)}
-        />
-      )}
     </>
   );
 };
