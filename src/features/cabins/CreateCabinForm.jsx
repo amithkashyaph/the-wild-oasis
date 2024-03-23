@@ -61,7 +61,15 @@ function CreateCabinForm({ editCabinData = {}, onClose }) {
         : cabinData.image[0];
 
     if (isEditMode) {
-      editCabin({ newCabin: { ...cabinData, image }, id: editCabinId });
+      editCabin(
+        { newCabin: { ...cabinData, image }, id: editCabinId },
+        {
+          onSuccess: () => {
+            onClose();
+            reset();
+          },
+        }
+      );
     } else {
       createCabin(
         { ...cabinData, image },
