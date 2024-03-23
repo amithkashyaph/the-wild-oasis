@@ -40,7 +40,7 @@ const FormRow2 = styled.div`
   }
 `;
 
-function CreateCabinForm({ editCabinData = {}, onClose }) {
+function CreateCabinForm({ editCabinData = {}, onClose, onCloseModal }) {
   const { id: editCabinId, ...editFormValues } = editCabinData;
 
   const isEditMode = Boolean(editCabinId);
@@ -65,8 +65,8 @@ function CreateCabinForm({ editCabinData = {}, onClose }) {
         { newCabin: { ...cabinData, image }, id: editCabinId },
         {
           onSuccess: () => {
-            onClose();
             reset();
+            onCloseModal?.();
           },
         }
       );
@@ -74,7 +74,10 @@ function CreateCabinForm({ editCabinData = {}, onClose }) {
       createCabin(
         { ...cabinData, image },
         {
-          onSuccess: () => reset(),
+          onSuccess: () => {
+            reset();
+            onCloseModal?.();
+          },
         }
       );
     }
@@ -87,7 +90,7 @@ function CreateCabinForm({ editCabinData = {}, onClose }) {
 
   return (
     <Form onSubmit={handleSubmit(onSubmit, onError)}>
-      <FormRow errors={errors} labelName="Cabin Name">
+      <FormRow errors={errors} label="Cabin Name">
         <Input
           type="text"
           id="name"
@@ -97,7 +100,7 @@ function CreateCabinForm({ editCabinData = {}, onClose }) {
         />
       </FormRow>
 
-      <FormRow errors={errors} labelName="Maximum capacity">
+      <FormRow errors={errors} label="Maximum capacity">
         <Input
           type="number"
           id="maxCapacity"
@@ -111,7 +114,7 @@ function CreateCabinForm({ editCabinData = {}, onClose }) {
         />
       </FormRow>
 
-      <FormRow errors={errors} labelName="Regular price">
+      <FormRow errors={errors} label="Regular price">
         <Input
           type="number"
           id="regularPrice"
@@ -125,7 +128,7 @@ function CreateCabinForm({ editCabinData = {}, onClose }) {
         />
       </FormRow>
 
-      <FormRow errors={errors} labelName="Discount">
+      <FormRow errors={errors} label="Discount">
         <Input
           type="number"
           id="discount"
@@ -145,7 +148,7 @@ function CreateCabinForm({ editCabinData = {}, onClose }) {
 
       <FormRow
         errors={errors}
-        labelName="Description for website"
+        label="Description for website"
         name="description"
       >
         <Textarea
@@ -158,7 +161,7 @@ function CreateCabinForm({ editCabinData = {}, onClose }) {
         />
       </FormRow>
 
-      <FormRow errors={errors} labelName="Cabin photo">
+      <FormRow errors={errors} label="Cabin photo">
         <FileInput
           id="image"
           accept="image/*"
@@ -170,7 +173,12 @@ function CreateCabinForm({ editCabinData = {}, onClose }) {
 
       <FormRow2>
         {/* type is an HTML attribute! */}
-        <Button variation="secondary" type="reset" id="cancel">
+        <Button
+          variation="secondary"
+          type="reset"
+          id="cancel"
+          onClick={() => onCloseModal?.()}
+        >
           Cancel
         </Button>
         <Button disabled={isCreating} id="addCabin">
