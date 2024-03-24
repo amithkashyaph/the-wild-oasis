@@ -1,5 +1,7 @@
-const SortBy = () => {
-  return <div>SortBy</div>;
+import Select from "./Select";
+
+const SortBy = ({ options }) => {
+  return <Select options={options} type="white" />;
 };
 
 export default SortBy;
