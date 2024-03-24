@@ -65,4 +65,15 @@ const Menus = ({ children }) => {
   return <div>{children}</div>;
 };
 
+const Toggle = ({ id }) => {};
+
+const List = ({ id }) => {};
+
+const Button = ({ children }) => {};
+
+Menus.Toggle = Toggle;
+Menus.List = List;
+Menus.Menu = StyledMenu;
+Menus.Button = Button;
+
 export default Menus;
