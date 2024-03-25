@@ -115,10 +115,16 @@ const List = ({ children, id }) => {
   );
 };
 
-const Button = ({ children }) => {
+const Button = ({ children, icon, onClick }) => {
+  const handleClick = () => {
+    onClick?.();
+  };
   return (
     <li>
-      <StyledButton>{children}</StyledButton>
+      <StyledButton onClick={handleClick}>
+        {icon}
+        <span>{children}</span>
+      </StyledButton>
     </li>
   );
 };
