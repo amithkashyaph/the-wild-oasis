@@ -7,7 +7,7 @@ import { HiPencil, HiSquare2Stack, HiTrash } from "react-icons/hi2";
 import { useCreateCabin } from "./useCreateCabin";
 import ModalCompoundComponent from "../../ui/ModalCompoundComponent";
 import ConfirmDelete from "../../ui/ConfirmDelete";
-import { Table } from "../../ui/Table";
+import Table from "../../ui/Table";
 import Menus from "../../ui/Menus";
 
 const TableRow = styled.div`
@@ -91,7 +91,7 @@ const CabinRow = ({ cabin }) => {
         <ModalCompoundComponent>
           <ModalCompoundComponent.Open opens="edit-cabin">
             <button
-              onClick={() => setShowEditForm((showForm) => !showForm)}
+              // onClick={() => setShowEditForm((showForm) => !showForm)}
               disabled={isDeleting}
             >
               <HiPencil />
@@ -116,9 +116,14 @@ const CabinRow = ({ cabin }) => {
         <Menus.Menu>
           <Menus.Toggle id={cabin.id} />
           <Menus.List id={cabin.id}>
-            <Menus.Button>Duplicate</Menus.Button>
-            <Menus.Button>Edit</Menus.Button>
-            <Menus.Button>Delete</Menus.Button>
+            <Menus.Button
+              icon={<HiSquare2Stack />}
+              onClick={handleCreateDuplicateCabin}
+            >
+              Duplicate
+            </Menus.Button>
+            <Menus.Button icon={<HiPencil />}>Edit</Menus.Button>
+            <Menus.Button icon={<HiTrash />}>Delete</Menus.Button>
           </Menus.List>
         </Menus.Menu>
       </div>
