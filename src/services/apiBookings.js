@@ -9,11 +9,19 @@ export async function getBookings({ filter, sortBy }) {
     );
 
   // Filter
-  if (filter !== null) {
+  if (filter) {
     query = query.eq(filter.field, filter.value);
   }
 
+  //Sorting
+  if (sortBy) {
+    query = query.order(sortBy.field, {
+      ascending: sortBy.direction === "asc",
+    });
+  }
+
   const { data, error } = await query;
+
   if (error) {
     console.error(error);
     throw new Error("Bookinngs could not be loaded");
