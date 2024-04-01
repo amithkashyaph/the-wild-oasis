@@ -149,11 +149,7 @@ function CreateCabinForm({ editCabinData = {}, onClose, onCloseModal }) {
         />
       </FormRow>
 
-      <FormRow
-        errors={errors}
-        label="Description for website"
-        name="description"
-      >
+      <FormRow errors={errors} label="Description for website">
         <Textarea
           type="number"
           id="description"
