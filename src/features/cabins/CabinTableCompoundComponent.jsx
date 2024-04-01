@@ -4,6 +4,7 @@ import { useCabins } from "./useCabins";
 import Table from "../../ui/Table";
 import Menus from "../../ui/Menus";
 import { useSearchParams } from "react-router-dom";
+import Empty from "../../ui/Empty";
 
 const CabinTableCompoundComponent = () => {
   const { isLoading, cabins } = useCabins();
@@ -11,6 +12,10 @@ const CabinTableCompoundComponent = () => {
 
   if (isLoading) {
     return <Spinner />;
+  }
+
+  if (!cabins.length) {
+    return <Empty resourceName="cabins" />;
   }
 
   /**
