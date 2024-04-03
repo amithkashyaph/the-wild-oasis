@@ -65,18 +65,20 @@ function CheckinBooking() {
       </Row>
 
       <BookingDataBox booking={booking} />
-      <Box>
-        <Checkbox
-          checked={addBreakfast}
-          onChange={() => {
-            setAddBreakfast((breakfast) => !breakfast);
-            setConfirmPayment(false);
-          }}
-          id="breakfast"
-        >
-          Want to add breakfast at {formatCurrency(totalBreakfastPrice)}?
-        </Checkbox>
-      </Box>
+      {!hasBreakfast && (
+        <Box>
+          <Checkbox
+            checked={addBreakfast}
+            onChange={() => {
+              setAddBreakfast((breakfast) => !breakfast);
+              setConfirmPayment(false);
+            }}
+            id="breakfast"
+          >
+            Want to add breakfast at {formatCurrency(totalBreakfastPrice)}?
+          </Checkbox>
+        </Box>
+      )}
 
       <Box>
         <Checkbox
