@@ -14,6 +14,7 @@ import Checkbox from "../../ui/Checkbox";
 import { useEffect, useState } from "react";
 import { formatCurrency } from "../../utils/helpers";
 import { useCheckin } from "./useCheckin";
+import { useSettings } from "../settings/useSettings";
 
 const Box = styled.div`
   /* Box */
@@ -25,15 +26,17 @@ const Box = styled.div`
 
 function CheckinBooking() {
   const [confirmPayment, setConfirmPayment] = useState(false);
+  const [addBreakfast, setAddBreakfast] = useState(false);
   const { booking, isLoading } = useBooking();
   const moveBack = useMoveBack();
   const { checkin, isCheckingIn } = useCheckin();
+  const { settings, isLoading: isLoadingSettings } = useSettings();
 
   useEffect(() => {
     setConfirmPayment(booking?.isPaid || false);
   }, [booking?.isPaid]);
 
-  if (isLoading) {
+  if (isLoading || isLoadingSettings) {
     return <Spinner />;
   }
   const {
@@ -44,6 +47,9 @@ function CheckinBooking() {
     hasBreakfast,
     numNights,
   } = booking;
+
+  const { breakfastPrice } = settings;
+  const totalBreakfastPrice = breakfastPrice * numGuests * numNights;
 
   function handleCheckin() {
     if (!confirmPayment) return;
@@ -61,13 +67,32 @@ function CheckinBooking() {
       <BookingDataBox booking={booking} />
       <Box>
         <Checkbox
+          checked={addBreakfast}
+          onChange={() => {
+            setAddBreakfast((breakfast) => !breakfast);
+            setConfirmPayment(false);
+          }}
+          id="breakfast"
+        >
+          Want to add breakfast at {formatCurrency(totalBreakfastPrice)}?
+        </Checkbox>
+      </Box>
+
+      <Box>
+        <Checkbox
           checked={confirmPayment}
           onChange={() => setConfirmPayment((confirm) => !confirm)}
           id="confirm"
           disabled={booking?.isPaid || isCheckingIn}
         >
           I confirm that, {guests.fullName} has the paid the total amount of{" "}
-          {formatCurrency(totalPrice)}
+          {!addBreakfast
+            ? formatCurrency(totalPrice)
+            : `${formatCurrency(
+                totalPrice + totalBreakfastPrice
+              )} (${formatCurrency(totalPrice)} + ${formatCurrency(
+                totalBreakfastPrice
+              )})`}
         </Checkbox>
       </Box>
 
