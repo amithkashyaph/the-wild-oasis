@@ -54,7 +54,18 @@ function CheckinBooking() {
   function handleCheckin() {
     if (!confirmPayment) return;
 
-    checkin(bookingId);
+    if (addBreakfast) {
+      checkin({
+        bookingId,
+        breakfast: {
+          hasBreakfast: true,
+          extrasPrice: totalBreakfastPrice,
+          totalPrice: totalPrice + totalBreakfastPrice,
+        },
+      });
+    } else {
+      checkin({ bookingId, breakfast: {} });
+    }
   }
 
   return (
@@ -85,7 +96,7 @@ function CheckinBooking() {
           checked={confirmPayment}
           onChange={() => setConfirmPayment((confirm) => !confirm)}
           id="confirm"
-          disabled={booking?.isPaid || isCheckingIn}
+          disabled={confirmPayment || isCheckingIn}
         >
           I confirm that, {guests.fullName} has the paid the total amount of{" "}
           {!addBreakfast
