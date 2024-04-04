@@ -16,6 +16,7 @@ import ConfirmDelete from "../../ui/ConfirmDelete";
 import { useNavigate } from "react-router-dom";
 import { HiArrowUpOnSquare } from "react-icons/hi2";
 import { useCheckout } from "../check-in-out/useCheckout";
+import { useDeleteBooking } from "./useDeleteBookin";
 
 const HeadingGroup = styled.div`
   display: flex;
@@ -26,6 +27,7 @@ const HeadingGroup = styled.div`
 function BookingDetail() {
   const { booking, isLoading } = useBooking();
   const { checkout, isCheckingout } = useCheckout();
+  const { deleteBooking, isDeleteingBooking } = useDeleteBooking();
 
   const moveBack = useMoveBack();
   const navigate = useNavigate();
@@ -64,10 +66,30 @@ function BookingDetail() {
           <Button
             icon={<HiArrowUpOnSquare />}
             onClick={() => checkout(bookingId)}
+            disabled={isCheckingout}
           >
             Check out
           </Button>
         )}
+        <ModalCompoundComponent>
+          <ModalCompoundComponent.Open opens="delete">
+            <Button variation="danger" disabled={isDeleteingBooking}>
+              Delete booking
+            </Button>
+          </ModalCompoundComponent.Open>
+
+          <ModalCompoundComponent.Window name="delete">
+            <ConfirmDelete
+              resourceName="booking"
+              disabled={isDeleteingBooking}
+              onConfirm={() =>
+                deleteBooking(bookingId, {
+                  onSettled: () => navigate(-1),
+                })
+              }
+            />
+          </ModalCompoundComponent.Window>
+        </ModalCompoundComponent>
         <Button variation="secondary" onClick={moveBack}>
           Back
         </Button>
