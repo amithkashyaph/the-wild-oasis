@@ -19,3 +19,9 @@ const Avatar = styled.img`
   border-radius: 50%;
   outline: 2px solid var(--color-grey-100);
 `;
+
+const UserAvatar = () => {
+  return <div>UserAvatar</div>;
+};
+
+export default UserAvatar;
