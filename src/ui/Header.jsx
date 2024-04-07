@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import Logout from "../features/authentication/Logout";
 
 const StyledHeader = styled.header`
   background-color: var(--color-grey-0);
@@ -7,7 +8,11 @@ const StyledHeader = styled.header`
   border-bottom: 1px solid var(--color-grey-100);
 `;
 const Header = () => {
-  return <StyledHeader>Header</StyledHeader>;
+  return (
+    <StyledHeader>
+      <Logout />
+    </StyledHeader>
+  );
 };
 
 export default Header;
