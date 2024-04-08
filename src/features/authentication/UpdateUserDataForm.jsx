@@ -27,7 +27,15 @@ function UpdateUserDataForm() {
     e.preventDefault();
     if (!fullName) return;
 
-    updateUser({ fullName });
+    updateUser(
+      { fullName, avatar },
+      {
+        onSuccess: () => {
+          setAvatar(null);
+          e.target.reset();
+        },
+      }
+    );
   }
 
   return (
