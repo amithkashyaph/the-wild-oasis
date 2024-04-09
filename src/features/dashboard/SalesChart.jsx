@@ -5,6 +5,7 @@ import {
   Area,
   AreaChart,
   CartesianGrid,
+  ResponsiveContainer,
   Tooltip,
   XAxis,
   YAxis,
@@ -71,13 +72,20 @@ const SalesChart = () => {
   return (
     <StyledSalesChart>
       <Heading as="h2">Sales</Heading>
-      <AreaChart data={fakeData} width={700} height={300}>
-        <XAxis dataKey="label" />
-        <YAxis unit="$" />
-        <CartesianGrid />
-        <Tooltip />
-        <Area dataKey="totalSales" type="monotone" stroke="red" fill="orange" />
-      </AreaChart>
+      <ResponsiveContainer width="100%" height={300}>
+        <AreaChart data={fakeData}>
+          <XAxis dataKey="label" />
+          <YAxis unit="$" />
+          <CartesianGrid strokeDasharray="4" />
+          <Tooltip />
+          <Area
+            dataKey="totalSales"
+            type="monotone"
+            stroke="red"
+            fill="orange"
+          />
+        </AreaChart>
+      </ResponsiveContainer>
     </StyledSalesChart>
   );
 };
