@@ -8,6 +8,7 @@ import {
   ResponsiveContainer,
   Tooltip,
 } from "recharts";
+import { useDarkMode } from "../../context/DarkModeContext";
 
 const ChartBox = styled.div`
   /* Box */
@@ -30,22 +31,22 @@ const ChartBox = styled.div`
 const startDataLight = [
   {
     duration: "1 night",
-    value: 2,
+    value: 0,
     color: "#ef4444",
   },
   {
     duration: "2 nights",
-    value: 3,
+    value: 0,
     color: "#f97316",
   },
   {
     duration: "3 nights",
-    value: 1,
+    value: 0,
     color: "#eab308",
   },
   {
     duration: "4-5 nights",
-    value: 4,
+    value: 0,
     color: "#84cc16",
   },
   {
@@ -140,14 +141,18 @@ function prepareData(startData, stays) {
   return data;
 }
 
-const DurationChart = () => {
+const DurationChart = ({ confirmedStays }) => {
+  const { isDarkMode } = useDarkMode();
+
+  const startData = isDarkMode ? startDataDark : startDataLight;
+  const data = prepareData(startData, confirmedStays);
   return (
     <ChartBox>
       <Heading as="h2">Stay Duration summary</Heading>
       <ResponsiveContainer width="100%" height={240}>
         <PieChart>
           <Pie
-            data={startDataLight}
+            data={data}
             nameKey="duration"
             dataKey="value"
             innerRadius={85}
@@ -156,7 +161,7 @@ const DurationChart = () => {
             cy="50%"
             paddingAngle={3}
           >
-            {startDataLight.map((entry) => (
+            {data.map((entry) => (
               <Cell
                 fill={entry.color}
                 stroke={entry.color}
